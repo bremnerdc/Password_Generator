@@ -17,7 +17,7 @@
 
 function userPrompt() {
   var length = parseInt(
-    prompt("How many characters is your password?")
+    prompt("How many characters do you want your password to be?")
   );
   if (isNaN(length) === true) {
     alert("You need to include a number");
@@ -48,6 +48,7 @@ return;
 var passCheck = {
   length: length, 
   lowerCheck: lowerCheck, 
+  upperCheck: upperCheck,
   numCheck: numCheck, 
   specialCheck: specialCheck
 };
