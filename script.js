@@ -15,28 +15,45 @@
   var specialChar = ["~", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "[",
 "]", "{", "}", "|", "\\"];
 
+// Function to prompt user for password options
 function userPrompt() {
+
+  // Variable to store length of password from user input
   var length = parseInt(
     prompt("How many characters do you want your password to be?")
   );
+
+  // Conditional statement to check if password length is a number. Prompts end if this evaluates false
   if (isNaN(length) === true) {
     alert("You need to include a number");
     return;
   }
+
+  // Conditional statement to check if password length is at least 8 characters long. Prompts end if this evaluates false
   if (length < 8) {
   alert("This password has to be 8 characters or more");
   return;
   } 
+
+// Conditional statement to check if password length is less than 128 characters long. Prompts end if this evaluates false
   if (length > 128) {
   alert("This password is too long, please keep it below 128 characters.");
   return;
   }
   
-var lowerCheck = confirm("Does your password contain a lowercase letter?");
-var upperCheck = confirm("Does your password contain an uppercase letter?");
-var numCheck = confirm("Does your password contain a number?");
-var specialCheck = confirm("Does your password contain a special character?");
+// Variable to store boolean regarding the inclusion of lowercase characters
+var lowerCheck = confirm("Click OK to include a lowercase letter");
 
+// Variable to store boolean regarding the inclusion of uppercase characters
+var upperCheck = confirm("Click OK to include an uppercase letter");
+
+// Variable to store boolean regarding the inclusion of numeric characters
+var numCheck = confirm("Click OK to include a number");
+
+// Variable to store boolean regarding the inclusion of special characters
+var specialCheck = confirm("Click OK to include a special character");
+
+// Conditional statement to check if user does not include any types of characters. Password generator ends if all four variables evaluate to false
 if (lowerCheck === false && 
   upperCheck === false && 
   numCheck === false && 
@@ -45,6 +62,7 @@ alert("Your password does not meet the password requirements");
 return;
   }
   
+// Object to store user input
 var passCheck = {
   length: length, 
   lowerCheck: lowerCheck, 
@@ -54,43 +72,53 @@ var passCheck = {
 };
   return passCheck;
 }
+
+// Function for getting a random element from an array
   function getRandom(arr) {
     var index = Math.floor(Math.random() * arr.length);
     var element = arr[index];
     return element;
   }
 
+// Function to generate password with user input
   function passwordGenerate() {
     var userpromptOptions = userPrompt();
     var genResult = [];
     var passwordArr = [];
     var result = [];
 
-  if (userpromptOptions.specialCheck) {
+    if (userpromptOptions.specialChecks) {
+      passwordArr = passwordArr.concat(specialChar);
+      genResult.push(getRandom(specialChar));
+      }
+    if (userpromptOptions.specialCheck) {
     genResult = genResult.concat(specialChar);
     passwordArr.push(getRandom(specialChar));
   }
-  if (userpromptOptions.lowerCheck) {
+    if (userpromptOptions.lowerCheck) {
     genResult = genResult.concat(lowerCase);
     passwordArr.push(getRandom(lowerCase));
   }
-  if (userpromptOptions.upperCheck) {
+    if (userpromptOptions.upperCheck) {
     genResult = genResult.concat(upperCase);
     passwordArr.push(getRandom(upperCase));
   }
-  if (userpromptOptions.numCheck) {
+    if (userpromptOptions.numCheck) {
     genResult = genResult.concat(numeric);
     passwordArr.push(getRandom(numeric));
   }
-
+  
+  // For loop to iterate over the password length from the options object, selecting random indices from the array of possible characters and concatenating those characters into the result variable
   for (var i = 0; i < userpromptOptions.length; i++) {
     var genResult = getRandom(genResult);
     result.push(genResult);
   }
 
+// Mix in at least one of each guaranteed character in the result
   for (var i = 0; i < passwordArr.length; i++) {
     result[i] = passwordArr[i]; 
   }
+  // Transform the result into a string and pass into writePassword
     return result.join('');
 }
 
